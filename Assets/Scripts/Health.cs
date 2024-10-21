@@ -15,5 +15,17 @@ public class Health : MonoBehaviour
     internal void TakeDamage(float damage)
     {
         _currentHealth -= damage;
+
+        if (_currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Debug.Log("Игрок погиб!");
+        // Можно добавить логику для уничтожения объекта, перезапуска уровня и т.д.
+        Destroy(gameObject);
     }
 }
