@@ -1,84 +1,100 @@
-using System.Collections;
 using UnityEngine;
 
 public class Mine : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] private float _damage;
     [SerializeField] private float _explosionRadius;
-    [SerializeField] private float _explosionDelay;
+    [SerializeField] private float _timeThreshold = 2f;
 
+    [Header("Effects")]
     [SerializeField] private ParticleSystem _mineEffect;
+
+    private ViewCharacter _view;
+
+    private bool _showGizmos = false;
     private bool _isTriggered = false;
+    private float _timeInRange = 0f;
+
+    public void Initialize(ViewCharacter view)
+    {
+        _view = view;
+    }
 
     private void Update()
     {
-        // Если мина не была активирована, проверяем, находится ли игрок в радиусе
         if (!_isTriggered)
-        {
             CheckForPlayerInRange();
-        }
     }
 
-    // Проверяем, есть ли игрок в зоне действия мины
     private void CheckForPlayerInRange()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, _explosionRadius);
 
+        bool playerInRange = false;
+
         foreach (var hitCollider in hitColliders)
         {
-            // Проверяем, что объект является игроком (по тегу "Player")
-            if (hitCollider.GetComponent<Player>())
+            if (hitCollider.GetComponent<Character>())
             {
-                // Активируем мину
-                ActivateMine();
+                playerInRange = true;
+                _timeInRange += Time.deltaTime;
+
+                _showGizmos = true;
+
+                if (_timeInRange >= _timeThreshold && !_isTriggered)
+                {
+                    Explode();
+                }
+
                 break;
             }
         }
-    }
 
-    private void ActivateMine()
-    {
-        if (!_isTriggered)
+        if (!playerInRange)
         {
-            _isTriggered = true;
-            Debug.LogWarning("Игрок обнаружен! Мина активирована!");
-            StartCoroutine(ExplodeAfterDelay());
+            _timeInRange = 0f;
+            _showGizmos = false;
         }
-    }
-
-    private IEnumerator ExplodeAfterDelay()
-    {
-        yield return new WaitForSeconds(_explosionDelay);
-        Explode();
     }
 
     private void Explode()
     {
-        Collider[] hitPlayers = Physics.OverlapSphere(transform.position, _explosionRadius);
-
-        if (_mineEffect != null)
+        if (!_isTriggered)
         {
-            _mineEffect.Play(); // Визуальный взрыв
-        }
+            _isTriggered = true;
 
-        foreach (Collider hit in hitPlayers)
-        {
-            if (hit.GetComponent<Player>())
+            Collider[] hitPlayers = Physics.OverlapSphere(transform.position, _explosionRadius);
+
+            if (_mineEffect != null)
             {
-                Health playerHealth = hit.GetComponent<Health>();
+                _mineEffect.Play();
+            }
 
-                if (playerHealth != null)
+            foreach (Collider hit in hitPlayers)
+            {
+                if (hit.GetComponent<Character>())
                 {
-                    playerHealth.TakeDamage(_damage); // Наносим урон игроку
+                    Health playerHealth = hit.GetComponentInChildren<Health>();
+
+                    if (playerHealth != null)
+                    {
+                        playerHealth.TakeDamage(_damage);
+
+                        _view.UpdateHealthText();
+                    }
                 }
             }
         }
+        
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
-        // Отображаем радиус взрыва в редакторе
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _explosionRadius);
+        if (_showGizmos)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, _explosionRadius);
+        }
     }
 }

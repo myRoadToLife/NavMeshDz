@@ -1,31 +1,39 @@
-using System;
 using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private float _maxHealth = 50f;
-    private float _currentHealth;
-    private float _damage;
+    [field: SerializeField] public float MaxHealth { get; private set; } = 100f;
+    public float CurrentHealth { get; private set; }
 
-    private void Start()
+    [SerializeField] private ViewCharacter _view;
+
+    private bool _isDead = false;
+
+    private void Awake()
     {
-        _currentHealth = _maxHealth;
+        CurrentHealth = MaxHealth;
     }
 
     internal void TakeDamage(float damage)
     {
-        _currentHealth -= damage;
+        if (_isDead)
+            return;
 
-        if (_currentHealth <= 0)
-        {
+        CurrentHealth -= damage;
+
+        CurrentHealth = Mathf.Max(0, CurrentHealth);
+
+        _view.UpdateHealthText();
+
+        if (CurrentHealth <= 0 && !_isDead)
             Die();
-        }
     }
 
     private void Die()
     {
+        _isDead = true;
+
         Debug.Log("Игрок погиб!");
-        // Можно добавить логику для уничтожения объекта, перезапуска уровня и т.д.
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }
