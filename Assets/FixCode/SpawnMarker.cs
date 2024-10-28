@@ -3,6 +3,7 @@ using UnityEngine;
 public class SpawnMarker : MonoBehaviour
 {
     [SerializeField] private Marker _markerPrefab;
+
     private Marker _currentMarker;
 
     public void CreateNew(Ray ray)

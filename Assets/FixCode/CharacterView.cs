@@ -10,15 +10,9 @@ namespace FixCode
         private readonly int _isInjuredKey = Animator.StringToHash("isInjured");
         private readonly int _isDancingKey = Animator.StringToHash("isDance");
 
-        private const int InjuredLayerIndex = 1;
-        private const int _weightOn = 1;
-        private const int _weightOff = 0;
-
         private Character _character;
         private Animator _animator;
         private Health _health;
-
-
 
         public void Initialize(Character character)
         {
@@ -33,9 +27,7 @@ namespace FixCode
             {
                 _animator.SetBool(_isRunningKey, _character.Agent.velocity.sqrMagnitude >= DeadZone);
 
-                bool isInjured = _character.Health.Value < _character.Health.MaxValue * 0.3f;
-
-                if (isInjured && _character.Agent.velocity.sqrMagnitude > DeadZone)
+                if (_character.IsInjured() && _character.Agent.velocity.sqrMagnitude > DeadZone)
                 {
                     _animator.SetBool(_isInjuredKey, true);
                 }
@@ -43,8 +35,6 @@ namespace FixCode
                 if (_character.Agent.velocity.sqrMagnitude <= DeadZone)
                 {
                     _animator.SetBool(_isInjuredKey, false);
-
-                    //_animator.SetBool(_isRunningKey, _character.Agent.velocity.sqrMagnitude >= DeadZone);
                 }
             }
         }

@@ -4,7 +4,6 @@ namespace FixCode
 {
     public class Health
     {
-
         public Health()
         {
             Value = MaxValue;
@@ -12,6 +11,7 @@ namespace FixCode
 
         public float Value { get; private set; }
         public float MaxValue { get; private set; } = 100;
+
 
         public void Reduce(float value)
         {

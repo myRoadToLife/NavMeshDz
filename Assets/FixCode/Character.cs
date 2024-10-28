@@ -13,8 +13,6 @@ namespace FixCode
             Health = health;
         }
 
-        public void TakeDamage(int damage) => Health.Reduce(damage);
-
         private void Update()
         {
             if (Health.Value <= 0f)
@@ -23,5 +21,12 @@ namespace FixCode
             }
         }
 
+        public void TakeDamage(int damage) => Health.Reduce(damage);
+
+        public bool IsInjured()
+        {
+            bool ingered = Health.Value <= Health.MaxValue * 0.3f;
+            return ingered;
+        }
     }
 }

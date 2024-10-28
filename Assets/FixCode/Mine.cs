@@ -8,6 +8,7 @@ namespace FixCode
         [SerializeField] private int _damage;
         [SerializeField] private SphereCollider _collider;
         [SerializeField] private float _timeThreshold = 2f;
+
         private Character _character;
 
         private float _timeInRange = 0f;
@@ -41,6 +42,7 @@ namespace FixCode
         private void OnTriggerExit(Collider other)
         {
             _character = other.GetComponent<Character>();
+
             if (_character != null)
             {
                 _hasExploded = false;
