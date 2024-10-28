@@ -19357,9 +19357,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3748468449305880080}
-  - component: {fileID: 4657529263949852994}
   - component: {fileID: 8294290278518631958}
+  - component: {fileID: 3778708392927960173}
   - component: {fileID: 3381491875963504986}
+  - component: {fileID: 67414694956975363}
   m_Layer: 0
   m_Name: Mine
   m_TagString: Untagged
@@ -19390,22 +19391,6 @@ Transform:
   - {fileID: 8483055908521165776}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4657529263949852994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3720120459650071207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9c222314e579b04aa1baab12e8bedb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _damage: 40
-  _explosionRadius: 1.5
-  _timeThreshold: 1.5
-  _mineEffect: {fileID: 8294290278518631958}
 --- !u!198 &8294290278518631958
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -24208,6 +24193,27 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!135 &3778708392927960173
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3720120459650071207}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.31
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!199 &3381491875963504986
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -24282,6 +24288,22 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &67414694956975363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3720120459650071207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf5a82f9ca6dd2744883c255f19a8724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 50
+  _collider: {fileID: 3778708392927960173}
+  _timeThreshold: 2
+  _mineEffect: {fileID: 8294290278518631958}
 --- !u!1 &5264744804825210566
 GameObject:
   m_ObjectHideFlags: 0
@@ -29227,7 +29249,7 @@ Transform:
   m_GameObject: {fileID: 6577291511414340512}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.2, z: -0.38}
+  m_LocalPosition: {x: -0.072, y: 0, z: 0.007}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 1
   m_Children: []
